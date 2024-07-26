@@ -10,18 +10,18 @@ const orderSchema = new Schema<TOrder>({
     type: String,
     required: [true, "user email is required!!"],
   },
-  pid: {
-    type: String,
-    required: [true, "product id is required!!"],
-  },
-  oname: {
-    type: String,
-    required: [true, "order name is required!!"],
-  },
-  oquantity: {
-    type: Number,
-    required: [true, "order quantity is required!!"],
-  },
+  products: [
+    {
+      pid: {
+        type: String,
+        required: [true, "product id is required!!"],
+      },
+      oquantity: {
+        type: Number,
+        required: [true, "order quantity is required!!"],
+      },
+    },
+  ],
   oprice: {
     type: Number,
     required: [true, "order price is required!!"],

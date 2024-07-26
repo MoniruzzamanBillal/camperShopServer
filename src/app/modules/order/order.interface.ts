@@ -1,8 +1,11 @@
-export interface TOrder {
+export type TOProduct = {
+  pid: string;
+  oquantity: number;
+};
+
+export type TOrder = {
   userName: string;
   userEmail: string;
-  pid: string;
-  oname: string;
-  oquantity: number;
+  products: TOProduct[];
   oprice: number;
-}
+};

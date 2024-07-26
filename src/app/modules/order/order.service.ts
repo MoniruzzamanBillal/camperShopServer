@@ -9,8 +9,6 @@ import { OrderModel } from "./order.model";
 
 // ! create order in database
 const createOrderInDb = async (payload: TOrder) => {
-  const { pid, oquantity } = payload;
-
   const session = await mongoose.startSession();
 
   try {
@@ -21,30 +19,40 @@ const createOrderInDb = async (payload: TOrder) => {
       throw new AppError(httpStatus.BAD_REQUEST, "order is unsuccessfull  !! ");
     }
 
-    //! check if product abailable
-    const checkProduct = await ProductModel.isProductExistById(pid);
-    if (!checkProduct) {
-      throw new AppError(httpStatus.NOT_FOUND, "Product dont exist !! ");
-    }
+    // * updating product
 
-    // ! check to check order quantity is more than product quantity
-    const isOverQuantityOrder = checkProduct?.pquantity >= oquantity;
+    for (const item of payload.products) {
+      const { pid, oquantity } = item;
 
-    console.log(isOverQuantityOrder);
+      //! check if product abailable
+      const checkProduct = await ProductModel.isProductExistById(pid);
+      if (!checkProduct) {
+        throw new AppError(httpStatus.NOT_FOUND, "Product dont exist !! ");
+      }
 
-    if (!isOverQuantityOrder) {
-      throw new AppError(httpStatus.BAD_REQUEST, "Order quantity exceeds !! ");
-    }
+      // ! check to check order quantity is more than product quantity
+      const isOverQuantityOrder = checkProduct?.pquantity >= oquantity;
 
-    // ! update product  quantity
-    const updatedRes = await ProductModel.findByIdAndUpdate(
-      pid,
-      { $inc: { pquantity: -oquantity } },
-      { new: true, runValidators: true, session }
-    );
+      if (!isOverQuantityOrder) {
+        throw new AppError(
+          httpStatus.BAD_REQUEST,
+          "Order quantity exceeds !! "
+        );
+      }
 
-    if (!updatedRes) {
-      throw new AppError(httpStatus.BAD_REQUEST, "order is unsuccessfull  !! ");
+      // ! update product  quantity
+      const updatedRes = await ProductModel.findByIdAndUpdate(
+        pid,
+        { $inc: { pquantity: -oquantity } },
+        { new: true, runValidators: true, session }
+      );
+
+      if (!updatedRes) {
+        throw new AppError(
+          httpStatus.BAD_REQUEST,
+          "order is unsuccessfull  !! "
+        );
+      }
     }
 
     await session.commitTransaction();
