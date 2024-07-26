@@ -21,10 +21,19 @@ const createOrderInDb = async (payload: TOrder) => {
       throw new AppError(httpStatus.BAD_REQUEST, "order is unsuccessfull  !! ");
     }
 
-    // check if product abailable
+    //! check if product abailable
     const checkProduct = await ProductModel.isProductExistById(pid);
     if (!checkProduct) {
       throw new AppError(httpStatus.NOT_FOUND, "Product dont exist !! ");
+    }
+
+    // ! check to check order quantity is more than product quantity
+    const isOverQuantityOrder = checkProduct?.pquantity >= oquantity;
+
+    console.log(isOverQuantityOrder);
+
+    if (!isOverQuantityOrder) {
+      throw new AppError(httpStatus.BAD_REQUEST, "Order quantity exceeds !! ");
     }
 
     // ! update product  quantity

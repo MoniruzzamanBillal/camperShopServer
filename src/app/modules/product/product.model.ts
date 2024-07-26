@@ -31,7 +31,6 @@ const productSchema = new Schema<TProduct, TProductModel>({
 // ! statics to check product available
 productSchema.statics.isProductExistById = async function (id: string) {
   const res = await ProductModel.findById(id);
-
   return res;
 };
 
