@@ -5,7 +5,7 @@ const createOrderValidationSchema = z.object({
   body: z.object({
     userName: z.string().min(1, { message: "user name is required !!" }),
     userEmail: z.string().min(1, { message: "user email is required !!" }),
-    oid: z.string().min(1, { message: "order id is required !!" }),
+    pid: z.string().min(1, { message: "product id is required !!" }),
     oname: z.string().min(1, { message: "order name is required !!" }),
 
     oquantity: z.number().nonnegative({

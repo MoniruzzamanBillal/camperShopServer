@@ -10,9 +10,9 @@ const orderSchema = new Schema<TOrder>({
     type: String,
     required: [true, "user email is required!!"],
   },
-  oid: {
+  pid: {
     type: String,
-    required: [true, "order id is required!!"],
+    required: [true, "product id is required!!"],
   },
   oname: {
     type: String,

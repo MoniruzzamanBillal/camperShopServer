@@ -1,7 +1,7 @@
 import mongoose, { Schema } from "mongoose";
-import { TProduct } from "./product.interface";
+import { TProduct, TProductModel } from "./product.interface";
 
-const productSchema = new Schema<TProduct>({
+const productSchema = new Schema<TProduct, TProductModel>({
   pname: {
     type: String,
     required: [true, "product name is required!!"],
@@ -28,6 +28,16 @@ const productSchema = new Schema<TProduct>({
   },
 });
 
-const ProductModel = mongoose.model<TProduct>("Product", productSchema);
+// ! statics to check product available
+productSchema.statics.isProductExistById = async function (id: string) {
+  const res = await ProductModel.findById(id);
+
+  return res;
+};
+
+const ProductModel = mongoose.model<TProduct, TProductModel>(
+  "Product",
+  productSchema
+);
 
 export default ProductModel;

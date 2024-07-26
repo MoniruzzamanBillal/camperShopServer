@@ -1,8 +1,8 @@
-export type TOrder = {
+export interface TOrder {
   userName: string;
   userEmail: string;
-  oid: string;
+  pid: string;
   oname: string;
   oquantity: number;
   oprice: number;
-};
+}
