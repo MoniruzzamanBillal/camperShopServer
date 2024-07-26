@@ -13,14 +13,14 @@ router.post(
 );
 
 // ! get all product
-router.get("/products", productController.getAllProducts);
+router.get("/all", productController.getAllProducts);
 
 // ! get single product
-router.get("/product/:id", productController.getSingleProduct);
+router.get("/:id", productController.getSingleProduct);
 
 // ! update single product
 router.patch(
-  "/product/:id",
+  "/:id",
   validateRequest(productValidations.updateProductValidationSchema),
   productController.updateProduct
 );
