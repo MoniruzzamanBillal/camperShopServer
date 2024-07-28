@@ -1,6 +1,6 @@
 import { FilterQuery, Query } from "mongoose";
 
-class Queryuilder<T> {
+class Querybuilder<T> {
   public queryModel: Query<T[], T>;
   public query: Record<string, unknown>;
 
@@ -11,7 +11,7 @@ class Queryuilder<T> {
 
   // ! for searching
   search(searchableFiels: string[]) {
-    let searchTerm = this.query?.searchTerm;
+    const searchTerm = this.query?.searchTerm;
 
     if (searchTerm) {
       this.queryModel = this.queryModel.find({
@@ -49,6 +49,9 @@ class Queryuilder<T> {
     const sort =
       (this.query?.sort as string)?.split(",").join(" ") || "-createdAt";
 
+    console.log(sort);
+
+    // this.queryModel = this.queryModel.sort(sort as string);
     this.queryModel = this.queryModel.sort(sort as string);
 
     return this;
@@ -75,4 +78,4 @@ class Queryuilder<T> {
   //
 }
 
-export default Queryuilder;
+export default Querybuilder;

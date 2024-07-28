@@ -1,5 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
+import Querybuilder from "../../builder/Queryuilder";
+import { ProductSearchableFields } from "./product.constant";
 import { TProduct } from "./product.interface";
 import ProductModel from "./product.model";
 
@@ -11,8 +13,14 @@ const addProductInDatabase = async (payload: TProduct) => {
 };
 
 // !  get all products from database
-const getAllProductFromDb = async () => {
-  const result = await ProductModel.find();
+const getAllProductFromDb = async (query: Record<string, unknown>) => {
+  console.log(query);
+  const productQuery = new Querybuilder(ProductModel.find(), query)
+    .search(ProductSearchableFields)
+    .filter()
+    .sort();
+
+  const result = await productQuery.queryModel;
 
   return result;
 };
