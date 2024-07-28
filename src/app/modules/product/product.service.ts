@@ -15,7 +15,24 @@ const addProductInDatabase = async (payload: TProduct) => {
 // !  get all products from database
 const getAllProductFromDb = async (query: Record<string, unknown>) => {
   console.log(query);
-  const productQuery = new Querybuilder(ProductModel.find(), query)
+
+  const findPromise = ProductModel.find();
+
+  if (query?.pprice) {
+    const { pprice } = query;
+
+    const priceQuery = findPromise.find({ pprice: { $lte: pprice } });
+    const productQuery = new Querybuilder(priceQuery, query)
+      .search(ProductSearchableFields)
+      .filter()
+      .sort();
+
+    const result = await productQuery.queryModel;
+
+    return result;
+  }
+
+  const productQuery = new Querybuilder(findPromise, query)
     .search(ProductSearchableFields)
     .filter()
     .sort();

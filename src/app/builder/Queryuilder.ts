@@ -36,9 +36,11 @@ class Querybuilder<T> {
       "limit",
       "page",
       "fields",
+      "pprice",
     ];
 
     excludedQueryField.forEach((value) => delete queryObj[value]);
+
     this.queryModel = this.queryModel.find(queryObj as FilterQuery<T>);
 
     return this;
@@ -49,9 +51,6 @@ class Querybuilder<T> {
     const sort =
       (this.query?.sort as string)?.split(",").join(" ") || "-createdAt";
 
-    console.log(sort);
-
-    // this.queryModel = this.queryModel.sort(sort as string);
     this.queryModel = this.queryModel.sort(sort as string);
 
     return this;
