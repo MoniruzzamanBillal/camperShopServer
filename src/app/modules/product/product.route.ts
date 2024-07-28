@@ -24,5 +24,7 @@ router.patch(
   validateRequest(productValidations.updateProductValidationSchema),
   productController.updateProduct
 );
+// ! delete single product
+router.patch("/delete/:id", productController.deleteProduct);
 
 export const productRouter = router;

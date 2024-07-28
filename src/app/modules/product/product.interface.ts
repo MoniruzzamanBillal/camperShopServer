@@ -7,6 +7,7 @@ export interface TProduct {
   pimage: string;
   pprice: number;
   pdescriptioin: string;
+  isDeleted: boolean;
 }
 
 export interface TProductModel extends Model<TProduct> {

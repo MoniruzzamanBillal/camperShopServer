@@ -26,6 +26,15 @@ const productSchema = new Schema<TProduct, TProductModel>({
     type: String,
     required: [true, "product description is required!!"],
   },
+  isDeleted: {
+    type: Boolean,
+    default: false,
+  },
+});
+
+productSchema.pre("find", async function (next) {
+  this.find({ isDeleted: { $ne: true } });
+  next();
 });
 
 // ! statics to check product available

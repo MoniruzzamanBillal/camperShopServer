@@ -6,6 +6,7 @@ import ProductModel from "./product.model";
 // ! adding product in databasee
 const addProductInDatabase = async (payload: TProduct) => {
   const response = await ProductModel.create(payload);
+
   return response;
 };
 
@@ -33,10 +34,25 @@ const updateProductInDb = async (id: string, payload: Partial<TProduct>) => {
   return result;
 };
 
+// ! delete  product from db
+const deleteProductInDb = async (id: string) => {
+  const result = await ProductModel.findByIdAndUpdate(
+    id,
+    { isDeleted: true },
+    {
+      new: true,
+      runValidators: true,
+    }
+  );
+
+  return result;
+};
+
 //
 export const productServices = {
   addProductInDatabase,
   getAllProductFromDb,
   getSingleProductFromDb,
   updateProductInDb,
+  deleteProductInDb,
 };

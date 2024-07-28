@@ -18,6 +18,7 @@ const createProductValidationSchema = z.object({
       .string()
       .min(1, { message: "product description is required !!" }),
   }),
+  isDeleted: z.boolean().default(false),
 });
 
 //! schema for updating a product
@@ -46,6 +47,7 @@ const updateProductValidationSchema = z.object({
       .string()
       .min(1, { message: "product description is required !!" })
       .optional(),
+    isDeleted: z.boolean().optional(),
   }),
 });
 
