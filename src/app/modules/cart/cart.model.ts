@@ -6,6 +6,14 @@ const cartSchema = new Schema<TCart>({
     type: String,
     required: [true, "product id is required!!"],
   },
+  pname: {
+    type: String,
+    required: [true, "product name is required!!"],
+  },
+  pimage: {
+    type: String,
+    required: [true, "product image is required!!"],
+  },
   oquantity: {
     type: Number,
     required: [true, "order quantity is required!!"],
