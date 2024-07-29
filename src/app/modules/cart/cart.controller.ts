@@ -108,10 +108,29 @@ const decreaseCartQuantity = catchAsync(async (req, res) => {
   });
 });
 
+// ! for deleting a cart item
+const deleteCartItem = catchAsync(async (req, res) => {
+  const { pid } = req.body;
+  const cartItem = await cartModel.findOne({ pid });
+  if (!cartItem) {
+    throw new Error("cart item not found !!  ");
+  }
+
+  const result = await cartModel.findOneAndDelete({ pid });
+
+  sendResponse(res, {
+    status: httpStatus.OK,
+    success: true,
+    message: " cart item deleted successfully!",
+    data: result,
+  });
+});
+
 //
 export const cartController = {
   addProductToCart,
   getCartData,
   addCartQuantity,
   decreaseCartQuantity,
+  deleteCartItem,
 };
