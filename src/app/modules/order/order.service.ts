@@ -6,6 +6,7 @@ import AppError from "../../Error/AppError";
 import httpStatus from "http-status";
 import ProductModel from "../product/product.model";
 import { OrderModel } from "./order.model";
+import { cartModel } from "../cart/cart.model";
 
 // ! create order in database
 const createOrderInDb = async (payload: TOrder) => {
@@ -53,6 +54,15 @@ const createOrderInDb = async (payload: TOrder) => {
           "order is unsuccessfull  !! "
         );
       }
+    }
+
+    // ! removing cart data
+    const deleteCart = await cartModel.deleteMany({}, { session });
+
+    console.log(deleteCart);
+
+    if (!deleteCart) {
+      throw new AppError(httpStatus.BAD_REQUEST, "order is unsuccessfull  !! ");
     }
 
     await session.commitTransaction();

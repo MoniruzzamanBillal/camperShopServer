@@ -10,6 +10,18 @@ const addProductToCart = catchAsync(async (req, res) => {
   const data = req.body;
   const { pid } = data;
 
+  // ! find product and check for quantity
+  const productQuantity =
+    await ProductModel.findById(pid).select(" pquantity ");
+
+  if (!productQuantity) {
+    throw new Error("Product not found !!  ");
+  }
+
+  if (productQuantity?.pquantity <= 1) {
+    throw new AppError(httpStatus.BAD_REQUEST, "product is stock out !! ");
+  }
+
   const isCartExist = await cartModel.findOne({ pid });
 
   //   ! if cart exist then add quantity
@@ -58,7 +70,7 @@ const addCartQuantity = catchAsync(async (req, res) => {
   const productQuantity =
     await ProductModel.findById(pid).select(" pquantity ");
 
-  if (!productQuantity?.pquantity || !productQuantity) {
+  if (!productQuantity) {
     throw new Error("Product not found !!  ");
   }
 
