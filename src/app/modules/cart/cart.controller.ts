@@ -15,7 +15,7 @@ const addProductToCart = catchAsync(async (req, res) => {
     await ProductModel.findById(pid).select(" pquantity ");
 
   if (!productQuantity) {
-    throw new Error("Product not found !!  ");
+    throw new Error("Product not found !!");
   }
 
   if (productQuantity?.pquantity <= 1) {
@@ -50,6 +50,7 @@ const addProductToCart = catchAsync(async (req, res) => {
   }
 
   const result = await cartModel.create(data);
+
   sendResponse(res, {
     status: httpStatus.OK,
     success: true,
@@ -74,6 +75,7 @@ const getCartData = catchAsync(async (req, res) => {
 const addCartQuantity = catchAsync(async (req, res) => {
   const { pid, oquantity } = req.body;
 
+  // ! check if product exist
   const productQuantity =
     await ProductModel.findById(pid).select(" pquantity ");
 
