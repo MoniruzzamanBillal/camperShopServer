@@ -59,8 +59,6 @@ const createOrderInDb = async (payload: TOrder) => {
     // ! removing cart data
     const deleteCart = await cartModel.deleteMany({}, { session });
 
-    console.log(deleteCart);
-
     if (!deleteCart) {
       throw new AppError(httpStatus.BAD_REQUEST, "order is unsuccessfull  !! ");
     }

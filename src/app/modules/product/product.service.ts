@@ -14,8 +14,6 @@ const addProductInDatabase = async (payload: TProduct) => {
 
 // !  get all products from database
 const getAllProductFromDb = async (query: Record<string, unknown>) => {
-  console.log(query);
-
   const findPromise = ProductModel.find();
 
   if (query?.pprice) {

@@ -26,6 +26,13 @@ const addProductToCart = catchAsync(async (req, res) => {
 
   //   ! if cart exist then add quantity
   if (isCartExist) {
+    if (productQuantity?.pquantity <= isCartExist?.oquantity) {
+      throw new AppError(
+        httpStatus.BAD_REQUEST,
+        "Cart exceeds product stock  !! "
+      );
+    }
+
     const updatedRes = await cartModel.findOneAndUpdate(
       { pid },
       { $inc: { oquantity: 1 } },
@@ -72,6 +79,19 @@ const addCartQuantity = catchAsync(async (req, res) => {
 
   if (!productQuantity) {
     throw new Error("Product not found !!  ");
+  }
+
+  const isCartExist = await cartModel.findOne({ pid });
+
+  if (!isCartExist) {
+    throw new Error("Cart data not found !!  ");
+  }
+
+  if (productQuantity?.pquantity <= isCartExist?.oquantity) {
+    throw new AppError(
+      httpStatus.BAD_REQUEST,
+      "Cart exceeds product stock  !! "
+    );
   }
 
   if (oquantity >= productQuantity?.pquantity) {
