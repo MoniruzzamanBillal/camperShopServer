@@ -31,14 +31,16 @@ const getAllProductFromDb = (query) => __awaiter(void 0, void 0, void 0, functio
         const productQuery = new Queryuilder_1.default(priceQuery, query)
             .search(product_constant_1.ProductSearchableFields)
             .filter()
-            .sort();
+            .sort()
+            .pagination();
         const result = yield productQuery.queryModel;
         return result;
     }
     const productQuery = new Queryuilder_1.default(findPromise, query)
         .search(product_constant_1.ProductSearchableFields)
         .filter()
-        .sort();
+        .sort()
+        .pagination();
     const result = yield productQuery.queryModel;
     return result;
 });

@@ -23,7 +23,8 @@ const getAllProductFromDb = async (query: Record<string, unknown>) => {
     const productQuery = new Querybuilder(priceQuery, query)
       .search(ProductSearchableFields)
       .filter()
-      .sort();
+      .sort()
+      .pagination();
 
     const result = await productQuery.queryModel;
 
@@ -33,7 +34,8 @@ const getAllProductFromDb = async (query: Record<string, unknown>) => {
   const productQuery = new Querybuilder(findPromise, query)
     .search(ProductSearchableFields)
     .filter()
-    .sort();
+    .sort()
+    .pagination();
 
   const result = await productQuery.queryModel;
 

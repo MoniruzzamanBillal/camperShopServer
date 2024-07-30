@@ -23,7 +23,6 @@ const AppError_1 = __importDefault(require("../../Error/AppError"));
 const addProductToCart = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const data = req.body;
     const { pid } = data;
-    console.log(data);
     // ! find product and check for quantity
     const productQuantity = yield product_model_1.default.findById(pid).select(" pquantity ");
     if (!productQuantity) {
@@ -35,6 +34,9 @@ const addProductToCart = (0, catchAsync_1.default)((req, res) => __awaiter(void 
     const isCartExist = yield cart_model_1.cartModel.findOne({ pid });
     //   ! if cart exist then add quantity
     if (isCartExist) {
+        if ((productQuantity === null || productQuantity === void 0 ? void 0 : productQuantity.pquantity) <= (isCartExist === null || isCartExist === void 0 ? void 0 : isCartExist.oquantity)) {
+            throw new AppError_1.default(http_status_1.default.BAD_REQUEST, "Cart exceeds product stock  !! ");
+        }
         const updatedRes = yield cart_model_1.cartModel.findOneAndUpdate({ pid }, { $inc: { oquantity: 1 } }, { new: true });
         (0, sendResponse_1.default)(res, {
             status: http_status_1.default.OK,
@@ -68,6 +70,13 @@ const addCartQuantity = (0, catchAsync_1.default)((req, res) => __awaiter(void 0
     const productQuantity = yield product_model_1.default.findById(pid).select(" pquantity ");
     if (!productQuantity) {
         throw new Error("Product not found !!  ");
+    }
+    const isCartExist = yield cart_model_1.cartModel.findOne({ pid });
+    if (!isCartExist) {
+        throw new Error("Cart data not found !!  ");
+    }
+    if ((productQuantity === null || productQuantity === void 0 ? void 0 : productQuantity.pquantity) <= (isCartExist === null || isCartExist === void 0 ? void 0 : isCartExist.oquantity)) {
+        throw new AppError_1.default(http_status_1.default.BAD_REQUEST, "Cart exceeds product stock  !! ");
     }
     if (oquantity >= (productQuantity === null || productQuantity === void 0 ? void 0 : productQuantity.pquantity)) {
         throw new AppError_1.default(http_status_1.default.BAD_REQUEST, "Order exceeds stock limit !! ");
