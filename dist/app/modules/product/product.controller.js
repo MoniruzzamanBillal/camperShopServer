@@ -17,6 +17,7 @@ const http_status_1 = __importDefault(require("http-status"));
 const catchAsync_1 = __importDefault(require("../../util/catchAsync"));
 const product_service_1 = require("./product.service");
 const sendResponse_1 = __importDefault(require("../../util/sendResponse"));
+const product_model_1 = __importDefault(require("./product.model"));
 // ! creating product
 const addProduct = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const data = req.body;
@@ -26,6 +27,16 @@ const addProduct = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, voi
         success: true,
         message: "product added successfully!",
         data: result,
+    });
+}));
+// ! get all products count
+const getAllProductsCount = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield product_model_1.default.find();
+    (0, sendResponse_1.default)(res, {
+        status: http_status_1.default.OK,
+        success: true,
+        message: "All product count retrived successfully!",
+        data: result === null || result === void 0 ? void 0 : result.length,
     });
 }));
 // !  get all products
@@ -79,4 +90,5 @@ exports.productController = {
     getSingleProduct,
     updateProduct,
     deleteProduct,
+    getAllProductsCount,
 };

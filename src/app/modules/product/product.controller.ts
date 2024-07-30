@@ -2,6 +2,7 @@ import httpStatus from "http-status";
 import catchAsync from "../../util/catchAsync";
 import { productServices } from "./product.service";
 import sendResponse from "../../util/sendResponse";
+import ProductModel from "./product.model";
 
 // ! creating product
 const addProduct = catchAsync(async (req, res) => {
@@ -14,6 +15,18 @@ const addProduct = catchAsync(async (req, res) => {
     success: true,
     message: "product added successfully!",
     data: result,
+  });
+});
+
+// ! get all products count
+const getAllProductsCount = catchAsync(async (req, res) => {
+  const result = await ProductModel.find();
+
+  sendResponse(res, {
+    status: httpStatus.OK,
+    success: true,
+    message: "All product count retrived successfully!",
+    data: result?.length,
   });
 });
 
@@ -79,4 +92,5 @@ export const productController = {
   getSingleProduct,
   updateProduct,
   deleteProduct,
+  getAllProductsCount,
 };

@@ -42,12 +42,17 @@ class Querybuilder {
     }
     // ! pagination
     pagination() {
-        var _a, _b;
-        const limit = Number((_a = this.query) === null || _a === void 0 ? void 0 : _a.limit) || 10;
-        const page = Number((_b = this.query) === null || _b === void 0 ? void 0 : _b.page) || 1;
-        const skip = (page - 1) * limit;
-        this.queryModel = this.queryModel.skip(skip).limit(limit);
-        return this;
+        var _a, _b, _c, _d;
+        if (((_a = this.query) === null || _a === void 0 ? void 0 : _a.limit) || ((_b = this.query) === null || _b === void 0 ? void 0 : _b.page)) {
+            const limit = Number((_c = this.query) === null || _c === void 0 ? void 0 : _c.limit) || 10;
+            const page = Number((_d = this.query) === null || _d === void 0 ? void 0 : _d.page) || 1;
+            const skip = (page - 1) * limit;
+            this.queryModel = this.queryModel.skip(skip).limit(limit);
+            return this;
+        }
+        else {
+            return this;
+        }
     }
     // ! field
     field() {

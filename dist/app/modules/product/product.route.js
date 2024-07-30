@@ -13,6 +13,7 @@ const router = (0, express_1.Router)();
 router.post("/add-product", (0, validateRequest_1.default)(product_validation_1.productValidations.createProductValidationSchema), product_controller_1.productController.addProduct);
 // ! get all product
 router.get("/all", product_controller_1.productController.getAllProducts);
+router.get("/all-count", product_controller_1.productController.getAllProductsCount);
 // ! get single product
 router.get("/:id", product_controller_1.productController.getSingleProduct);
 // ! update single product

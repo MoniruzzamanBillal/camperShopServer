@@ -14,6 +14,7 @@ router.post(
 
 // ! get all product
 router.get("/all", productController.getAllProducts);
+router.get("/all-count", productController.getAllProductsCount);
 
 // ! get single product
 router.get("/:id", productController.getSingleProduct);

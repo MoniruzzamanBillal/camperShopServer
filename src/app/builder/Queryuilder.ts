@@ -58,11 +58,15 @@ class Querybuilder<T> {
 
   // ! pagination
   pagination() {
-    const limit = Number(this.query?.limit) || 10;
-    const page = Number(this.query?.page) || 1;
-    const skip = (page - 1) * limit;
-    this.queryModel = this.queryModel.skip(skip).limit(limit);
-    return this;
+    if (this.query?.limit || this.query?.page) {
+      const limit = Number(this.query?.limit) || 10;
+      const page = Number(this.query?.page) || 1;
+      const skip = (page - 1) * limit;
+      this.queryModel = this.queryModel.skip(skip).limit(limit);
+      return this;
+    } else {
+      return this;
+    }
   }
 
   // ! field
